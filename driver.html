@@ -749,9 +749,10 @@
                 const response = await fetch('https://canal-conceded-keep.ngrok-free.dev/jobs', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ jobId, status })
+                    body: JSON.stringify({ id: jobId, status })
                 });
                 if (response.ok) {
+                    console.log(`✓ Job ${jobId} status updated to: ${status}`);
                     await fetchJobsFromAPI();
                 }
             } catch (error) {
@@ -759,9 +760,32 @@
             }
         }
 
-        function acceptJob(jobId) {
+        async function acceptJob(jobId) {
             const job = allJobs.find(j => j.id === jobId);
             if (job) {
+                // If job has a payment authorization, capture (charge) it now
+                if (job.paymentIntentId) {
+                    try {
+                        const response = await fetch('https://canal-conceded-keep.ngrok-free.dev/capture-payment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ paymentIntentId: job.paymentIntentId })
+                        });
+                        const data = await response.json();
+                        if (response.ok && data.success) {
+                            console.log(`✓ Payment captured: $${data.amount_charged}`);
+                            // Show payment confirmation in UI
+                            alert(`💳 $${data.amount_charged} charged to customer card`);
+                        } else {
+                            throw new Error(data.error || 'Failed to capture payment');
+                        }
+                    } catch (error) {
+                        console.error('Payment capture error:', error);
+                        alert('Warning: Could not charge card. ' + error.message);
+                        // Continue with job acceptance anyway
+                    }
+                }
+
                 activeJobId = jobId;
                 updateJobStatus(jobId, 'accepted');
                 updateStatusDot();
@@ -770,7 +794,29 @@
             }
         }
 
-        function declineJob(jobId) {
+        async function declineJob(jobId) {
+            const job = allJobs.find(j => j.id === jobId);
+            
+            // If job has a payment authorization, cancel it (release card hold)
+            if (job && job.paymentIntentId) {
+                try {
+                    const response = await fetch('https://canal-conceded-keep.ngrok-free.dev/cancel-payment', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ paymentIntentId: job.paymentIntentId })
+                    });
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        console.log(`✓ Payment canceled: Authorization released`);
+                    } else {
+                        throw new Error(data.error || 'Failed to cancel payment');
+                    }
+                } catch (error) {
+                    console.error('Payment cancellation error:', error);
+                    // Continue with job decline anyway
+                }
+            }
+            
             updateJobStatus(jobId, 'declined');
         }
 

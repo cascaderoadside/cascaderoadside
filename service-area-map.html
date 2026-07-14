@@ -6,6 +6,7 @@
     <title>Cascade Roadside Service Area Map | 98 ZIP Codes</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         * {
             margin: 0;
@@ -525,6 +526,17 @@
                 ⚠️ +$10 bridge surcharge applies to Narrows zone
             </div>
 
+            <div class="form-group" id="price-display" style="background:#e0f2fe; border-left:4px solid #0284c7; padding:12px; border-radius:4px; margin:15px 0; font-size:14px; font-weight:600; color:#0c4a6e; display:none;">
+                💰 Your Total: <span id="totalPrice">$95</span> (held on card until service complete)
+            </div>
+
+            <div class="form-group" id="payment-section" style="display:none;">
+                <label>💳 Card Details (held until service complete)</label>
+                <div id="card-element" style="background:#1a2035; padding:12px; border-radius:8px; border:1px solid #C4962A;"></div>
+                <div id="card-errors" style="color:#ff6b6b; font-size:12px; margin-top:6px;"></div>
+                <p style="color:#888; font-size:11px; margin-top:6px;">Card is authorized now, charged only when Doug accepts your request. No charge if declined.</p>
+            </div>
+
             <button type="submit" class="submit-btn" id="submitBtn">Send Request — We'll Call You Back</button>
         </form>
     </div>
@@ -720,11 +732,51 @@
             }
         }
 
+        // Service pricing
+        const servicePrices = {
+            'Lockout': 95,
+            'Flat Tire': 95,
+            'Jump Start': 85,
+            'Fuel Delivery': 95
+        };
+
         function updateServicePrice() {
-            // Update based on selection (for UI feedback)
+            // Update price display based on selection
             const serviceType = document.getElementById('serviceType').value;
-            console.log('Selected service:', serviceType);
+            const priceDisplay = document.getElementById('price-display');
+            const totalPriceSpan = document.getElementById('totalPrice');
+            
+            if (serviceType) {
+                const price = servicePrices[serviceType] || 95;
+                totalPriceSpan.textContent = '$' + price;
+                priceDisplay.style.display = 'block';
+                document.getElementById('payment-section').style.display = 'block';
+            } else {
+                priceDisplay.style.display = 'none';
+                document.getElementById('payment-section').style.display = 'none';
+            }
         }
+
+        // Stripe initialization
+        const stripe = Stripe('pk_test_51Tt9diLmUAGiNqUIVHtD86MI7IkE8FBypTq6MoTiFInsE3X3q5FTX0KP49whGx0p5WuXy62lxurqxsHe4qN19HAe00mNKfOpeP');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    color: '#F0EAD6',
+                    fontFamily: 'sans-serif',
+                    fontSize: '16px',
+                    '::placeholder': { color: '#666' }
+                },
+                invalid: { color: '#ff6b6b' }
+            }
+        });
+        cardElement.mount('#card-element');
+
+        cardElement.on('change', e => {
+            const displayError = document.getElementById('card-errors');
+            displayError.textContent = e.error ? e.error.message : '';
+        });
 
         async function handleServiceRequest(event) {
             event.preventDefault();
@@ -743,10 +795,47 @@
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.textContent = '📤 Sending...';
+            submitBtn.textContent = '📤 Processing payment...';
 
             try {
-                const response = await fetch('https://canal-conceded-keep.ngrok-free.dev/service-request', {
+                // Step 1: Create Stripe PaymentIntent
+                const piResponse = await fetch('https://canal-conceded-keep.ngrok-free.dev/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        service_type: serviceType,
+                        after_hours: false // Can be set based on time of day
+                    })
+                });
+
+                const piData = await piResponse.json();
+
+                if (!piResponse.ok || !piData.success) {
+                    throw new Error(piData.error || 'Failed to create payment intent');
+                }
+
+                // Step 2: Confirm payment with card (authorize only, not charged yet)
+                submitBtn.textContent = '💳 Authorizing card...';
+                const confirmResult = await stripe.confirmCardPayment(piData.clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: { name: name, phone: phone }
+                    }
+                });
+
+                if (confirmResult.error) {
+                    throw new Error(confirmResult.error.message);
+                }
+
+                if (confirmResult.paymentIntent.status !== 'requires_capture') {
+                    throw new Error('Payment authorization failed. Status: ' + confirmResult.paymentIntent.status);
+                }
+
+                // Step 3: Payment authorized! Now submit the service request with paymentIntentId
+                submitBtn.textContent = '📤 Sending request...';
+                const serviceResponse = await fetch('https://canal-conceded-keep.ngrok-free.dev/service-request', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -759,13 +848,14 @@
                         lng: userLocation.lng,
                         service_type: serviceType,
                         notes,
-                        zone
+                        zone,
+                        paymentIntentId: piData.paymentIntentId
                     })
                 });
 
-                const data = await response.json();
+                const serviceData = await serviceResponse.json();
 
-                if (response.ok && data.success) {
+                if (serviceResponse.ok && serviceData.success) {
                     // Show confirmation message
                     document.getElementById('confirmationMessage').classList.add('active');
                     document.getElementById('serviceRequestForm').style.display = 'none';
@@ -777,16 +867,18 @@
                         document.getElementById('serviceRequestForm').style.display = 'block';
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Send Request — We\'ll Call You Back';
+                        document.getElementById('price-display').style.display = 'none';
+                        document.getElementById('payment-section').style.display = 'none';
                         toggleServicePanel();
                     }, 5000);
                 } else {
-                    alert('Error: ' + (data.error || 'Failed to send request'));
+                    alert('Error: ' + (serviceData.error || 'Failed to send request'));
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Send Request — We\'ll Call You Back';
                 }
             } catch (error) {
                 console.error('Request error:', error);
-                alert('Error sending request: ' + error.message);
+                alert('Error: ' + error.message);
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Request — We\'ll Call You Back';
             }

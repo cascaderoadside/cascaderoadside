@@ -1,0 +1,12 @@
+.netlify/
+netlify.toml
+app.py
+server.log
+*.log
+netlify/functions/service-request.js
+netlify/functions/jobs.js
+netlify/
+.env*
+QUICKSTART.md
+SERVICE_REQUEST_SETUP.md
+KITSAP_EXPANSION.md

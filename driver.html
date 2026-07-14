@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascade Roadside — Driver View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            padding: 12px 16px;
+            border-bottom: 2px solid #C4962A;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #C4962A;
+        }
+
+        .header-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 10px;
+            background: rgba(196, 150, 42, 0.1);
+            border-radius: 4px;
+            border: 1px solid #C4962A;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.active-job {
+            background: #3b82f6;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .map-container {
+            flex: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #C4962A;
+            border-radius: 3px;
+        }
+
+        .panel {
+            background: #1a1f2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #C4962A;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .active-job-panel {
+            background: linear-gradient(135deg, #1a2634 0%, #1a1f2e 100%);
+            border: 2px solid #3b82f6;
+        }
+
+        .active-job-panel .panel-title {
+            color: #3b82f6;
+        }
+
+        .active-job-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .job-timer {
+            font-size: 32px;
+            font-weight: bold;
+            color: #C4962A;
+            text-align: center;
+            padding: 12px;
+            background: rgba(196, 150, 42, 0.1);
+            border-radius: 6px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .job-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .job-customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f5f5f5;
+        }
+
+        .job-customer-phone {
+            color: #C4962A;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .job-customer-phone:hover {
+            text-decoration: underline;
+        }
+
+        .job-service {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f5f5f5;
+        }
+
+        .job-price {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .job-address {
+            color: #aaa;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .job-eta {
+            color: #3b82f6;
+            font-size: 13px;
+        }
+
+        .jobs-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .jobs-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .jobs-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .jobs-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .jobs-list::-webkit-scrollbar-thumb {
+            background: #C4962A;
+            border-radius: 2px;
+        }
+
+        .job-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .job-card:hover {
+            background: rgba(196, 150, 42, 0.1);
+            border-color: #C4962A;
+        }
+
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .job-card-customer {
+            font-size: 13px;
+            font-weight: 600;
+            color: #f5f5f5;
+        }
+
+        .job-card-price {
+            background: #4ade80;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .job-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .job-card-service {
+            background: rgba(196, 150, 42, 0.2);
+            color: #C4962A;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .job-card-eta {
+            color: #3b82f6;
+        }
+
+        .job-card-address {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.3;
+        }
+
+        .job-card-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .job-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .job-btn-accept {
+            background: #4ade80;
+            color: #000;
+        }
+
+        .job-btn-accept:hover {
+            background: #22c55e;
+        }
+
+        .job-btn-decline {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .job-btn-decline:hover {
+            background: #dc2626;
+        }
+
+        .job-btn-complete {
+            background: #3b82f6;
+            color: #fff;
+            flex: 1;
+        }
+
+        .job-btn-complete:hover {
+            background: #2563eb;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: #666;
+            text-align: center;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        .empty-state-emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-btn {
+            padding: 10px 12px;
+            background: #C4962A;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: #d4a63a;
+        }
+
+        .control-btn-secondary {
+            background: #333;
+            color: #f5f5f5;
+        }
+
+        .control-btn-secondary:hover {
+            background: #444;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1f2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #C4962A;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .form-input {
+            padding: 8px 10px;
+            background: #0a0e1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #f5f5f5;
+            font-size: 13px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #C4962A;
+            background: rgba(196, 150, 42, 0.05);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-submit {
+            background: #C4962A;
+            color: #000;
+        }
+
+        .modal-btn-submit:hover {
+            background: #d4a63a;
+        }
+
+        .modal-btn-cancel {
+            background: #333;
+            color: #f5f5f5;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #444;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 45%;
+            }
+
+            .map-container {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-title">🚗 Cascade Roadside — Driver View</div>
+                <div class="header-time" id="headerTime">--:--</div>
+            </div>
+            <div class="header-status">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <div class="sidebar">
+                <div class="panel active-job-panel" id="activeJobPanel" style="display: none;">
+                    <div class="panel-title">
+                        <i class="fas fa-hourglass-start"></i>
+                        Active Job
+                    </div>
+                    <div class="active-job-content" id="activeJobContent"></div>
+                </div>
+
+                <div class="panel jobs-panel">
+                    <div class="panel-title">
+                        <i class="fas fa-tasks"></i>
+                        Pending Jobs
+                    </div>
+                    <div class="jobs-list" id="jobsList">
+                        <div class="empty-state">
+                            <div class="empty-state-emoji">🟢</div>
+                            <div>No pending jobs — you're all clear</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel control-panel">
+                    <button class="control-btn control-btn-secondary" id="clearLocationBtn">
+                        Clear Location
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        let map = null;
+        let driverMarker = null;
+        let jobMarkers = {};
+        let driverLocation = null;
+        let activeJobId = null;
+        let activeJobTimer = null;
+        const serviceAreaZips = [
+            { zip: '98372', center: [47.185, -122.293], color: '#4ade80' },
+            { zip: '98374', center: [47.190, -122.310], color: '#4ade80' },
+            { zip: '98375', center: [47.175, -122.275], color: '#4ade80' },
+        ];
+
+        function init() {
+            initMap();
+            initGeolocation();
+            initEventListeners();
+            updateTime();
+            setInterval(updateTime, 1000);
+            setInterval(syncJobsFromAPI, 10000);
+            syncJobsFromAPI();
+        }
+
+        function initMap() {
+            map = L.map('map').setView([47.185, -122.293], 13);
+            
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap, © CartoDB',
+                maxZoom: 19,
+                crossOrigin: true
+            }).addTo(map);
+
+            serviceAreaZips.forEach(zone => {
+                L.circle(zone.center, {
+                    radius: 5000,
+                    color: zone.color,
+                    weight: 1,
+                    opacity: 0.2,
+                    fillOpacity: 0.1,
+                    dashArray: '5, 5'
+                }).addTo(map);
+            });
+        }
+
+        function updateDriverMarker() {
+            if (!driverLocation) return;
+
+            const [lat, lng] = driverLocation;
+
+            if (driverMarker) {
+                map.removeLayer(driverMarker);
+            }
+
+            const iconHtml = `
+                <div style="
+                    width: 40px;
+                    height: 40px;
+                    background: #3b82f6;
+                    border: 3px solid white;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 20px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                ">
+                    🚐
+                </div>
+            `;
+
+            driverMarker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    html: iconHtml,
+                    iconSize: [40, 40],
+                    className: 'driver-marker'
+                })
+            }).addTo(map);
+
+            map.setView([lat, lng], map.getZoom());
+        }
+
+        function updateJobMarkers() {
+            Object.values(jobMarkers).forEach(marker => map.removeLayer(marker));
+            jobMarkers = {};
+
+            const jobs = getJobs();
+            jobs.forEach(job => {
+                if (job.status === 'pending') {
+                    const iconHtml = `
+                        <div style="
+                            width: 32px;
+                            height: 32px;
+                            background: #C4962A;
+                            border: 2px solid white;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 16px;
+                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                        ">
+                            📍
+                        </div>
+                    `;
+
+                    const marker = L.marker([job.lat, job.lng], {
+                        icon: L.divIcon({
+                            html: iconHtml,
+                            iconSize: [32, 32],
+                            className: 'job-marker'
+                        })
+                    }).addTo(map);
+
+                    marker.on('click', () => showJobDetails(job.id));
+                    jobMarkers[job.id] = marker;
+                }
+            });
+        }
+
+        function initGeolocation() {
+            if (!navigator.geolocation) {
+                console.error('Geolocation not supported');
+                return;
+            }
+
+            navigator.geolocation.watchPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    driverLocation = [latitude, longitude];
+                    saveDriverLocation(latitude, longitude);
+                    updateDriverMarker();
+                    renderActiveJob();
+                },
+                error => {
+                    console.error('Geolocation error:', error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 5000
+                }
+            );
+        }
+
+        let allJobs = [];
+
+        function getJobs() {
+            return allJobs;
+        }
+
+        async function fetchJobsFromAPI() {
+            try {
+                const response = await fetch('/.netlify/functions/jobs');
+                const data = await response.json();
+                allJobs = data.jobs || [];
+                updateJobMarkers();
+                renderJobsList();
+                if (activeJobId && !allJobs.find(j => j.id === activeJobId)) {
+                    activeJobId = null;
+                    clearInterval(activeJobTimer);
+                    updateStatusDot();
+                    renderActiveJob();
+                }
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+            }
+        }
+
+        async function updateJobStatus(jobId, status) {
+            try {
+                const response = await fetch('/.netlify/functions/jobs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jobId, status })
+                });
+                if (response.ok) {
+                    await fetchJobsFromAPI();
+                }
+            } catch (error) {
+                console.error('Error updating job:', error);
+            }
+        }
+
+        function acceptJob(jobId) {
+            const job = allJobs.find(j => j.id === jobId);
+            if (job) {
+                activeJobId = jobId;
+                updateJobStatus(jobId, 'accepted');
+                updateStatusDot();
+                renderActiveJob();
+                startJobTimer();
+            }
+        }
+
+        function declineJob(jobId) {
+            updateJobStatus(jobId, 'declined');
+        }
+
+        function completeJob(jobId) {
+            activeJobId = null;
+            clearInterval(activeJobTimer);
+            updateJobStatus(jobId, 'complete');
+            updateStatusDot();
+            renderActiveJob();
+        }
+
+        function saveDriverLocation(lat, lng) {
+            localStorage.setItem('driverLocation', JSON.stringify({
+                lat,
+                lng,
+                timestamp: Date.now()
+            }));
+        }
+
+        function renderActiveJob() {
+            const activeJobPanel = document.getElementById('activeJobPanel');
+            const activeJobContent = document.getElementById('activeJobContent');
+            
+            if (!activeJobId) {
+                activeJobPanel.style.display = 'none';
+                return;
+            }
+
+            const jobs = getJobs();
+            const job = jobs.find(j => j.id === activeJobId);
+            
+            if (!job) {
+                activeJobPanel.style.display = 'none';
+                return;
+            }
+
+            activeJobPanel.style.display = 'block';
+
+            const eta = calculateETA(job);
+
+            activeJobContent.innerHTML = `
+                <div class="job-timer" id="jobTimer">00:00:00</div>
+                <div class="job-details">
+                    <div>
+                        <div class="job-customer-name">${job.name}</div>
+                        <a href="tel:${job.phone}" class="job-customer-phone">${formatPhone(job.phone)}</a>
+                    </div>
+                    <div>
+                        <div class="job-service">${job.service}</div>
+                        <div class="job-price">$${job.price}</div>
+                    </div>
+                    <div class="job-address">${job.address}</div>
+                    <div class="job-eta">ETA: ~${eta} min</div>
+                </div>
+                <button class="job-btn job-btn-complete" onclick="completeJob('${job.id}')">
+                    Complete Job
+                </button>
+            `;
+        }
+
+        function renderJobsList() {
+            const jobsList = document.getElementById('jobsList');
+            const jobs = getJobs().filter(j => j.status === 'pending');
+
+            if (jobs.length === 0) {
+                jobsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-emoji">🟢</div>
+                        <div>No pending jobs — you're all clear</div>
+                    </div>
+                `;
+                return;
+            }
+
+            jobsList.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-card-customer">${job.name}</div>
+                        <div class="job-card-price">$${job.price}</div>
+                    </div>
+                    <div class="job-card-meta">
+                        <span class="job-card-service">${job.service}</span>
+                        <span class="job-card-eta">~${calculateETA(job)} min</span>
+                    </div>
+                    <div class="job-card-address">${job.address}</div>
+                    <div class="job-card-actions">
+                        <button class="job-btn job-btn-accept" onclick="acceptJob('${job.id}')">
+                            Accept
+                        </button>
+                        <button class="job-btn job-btn-decline" onclick="declineJob('${job.id}')">
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function calculateETA(job) {
+            if (!driverLocation) return '?';
+            
+            const [dLat, dLng] = driverLocation;
+            const distance = Math.sqrt(
+                Math.pow(job.lat - dLat, 2) + Math.pow(job.lng - dLng, 2)
+            ) * 111 * 1.4;
+            
+            const eta = Math.ceil(distance / 30);
+            return Math.max(1, eta);
+        }
+
+        function updateStatusDot() {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            
+            if (activeJobId) {
+                dot.classList.add('active-job');
+                text.textContent = 'On Job';
+            } else {
+                dot.classList.remove('active-job');
+                text.textContent = 'Ready';
+            }
+        }
+
+        function startJobTimer() {
+            clearInterval(activeJobTimer);
+            const startTime = Date.now();
+            
+            activeJobTimer = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const hours = Math.floor(elapsed / 3600);
+                const minutes = Math.floor((elapsed % 3600) / 60);
+                const seconds = elapsed % 60;
+                
+                const timer = document.getElementById('jobTimer');
+                if (timer) {
+                    timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        function formatPhone(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length === 10) {
+                return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+            }
+            return phone;
+        }
+
+        function showJobDetails(jobId) {
+            const jobCard = document.querySelector(`[data-job-id="${jobId}"]`);
+            if (jobCard) {
+                jobCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('headerTime').textContent = time;
+        }
+
+        function syncJobsFromAPI() {
+            fetchJobsFromAPI();
+        }
+
+        function initEventListeners() {
+            document.getElementById('clearLocationBtn').addEventListener('click', () => {
+                localStorage.removeItem('driverLocation');
+                driverLocation = null;
+                if (driverMarker) {
+                    map.removeLayer(driverMarker);
+                    driverMarker = null;
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

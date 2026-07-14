@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascade Roadside LLC - 24/7 Roadside Assistance in Pierce County, WA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            background-color: #0A1628;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(10, 22, 40, 0.95);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #F59E0B;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #F59E0B;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-phone {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #F59E0B;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-phone:hover {
+            color: #fbbf24;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0A1628 0%, #0f2540 50%, #1a3a52 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #F59E0B;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .hero-phone {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #F59E0B;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 2px solid #F59E0B;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-phone:hover {
+            background: #F59E0B;
+            color: #0A1628;
+            transform: scale(1.05);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #F59E0B;
+            color: #0A1628;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 3rem;
+            color: #F59E0B;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #F59E0B;
+            border-radius: 2px;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card:hover {
+            border-color: #F59E0B;
+            background: rgba(245, 158, 11, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #F59E0B;
+        }
+
+        .service-card p {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .service-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #F59E0B;
+        }
+
+        /* Why Us Section */
+        .why-us {
+            background: rgba(245, 158, 11, 0.05);
+            border-left: 4px solid #F59E0B;
+        }
+
+        .why-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .why-us-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .why-us-icon {
+            font-size: 2.5rem;
+            color: #F59E0B;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        .why-us-item h3 {
+            color: #F59E0B;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .why-us-item p {
+            color: #d1d5db;
+        }
+
+        /* Membership Section */
+        .membership-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .membership-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .membership-card.featured {
+            border-color: #F59E0B;
+            background: rgba(245, 158, 11, 0.15);
+            transform: scale(1.05);
+        }
+
+        .membership-card.featured h3 {
+            color: #fbbf24;
+        }
+
+        .membership-card h3 {
+            font-size: 1.8rem;
+            color: #F59E0B;
+            margin-bottom: 1rem;
+        }
+
+        .membership-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #F59E0B;
+            margin: 1.5rem 0;
+        }
+
+        .membership-price span {
+            font-size: 1rem;
+            color: #d1d5db;
+        }
+
+        .membership-features {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+            color: #d1d5db;
+        }
+
+        .membership-features li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .membership-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #F59E0B;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Coverage Section */
+        .coverage {
+            background: rgba(245, 158, 11, 0.05);
+            border-left: 4px solid #F59E0B;
+        }
+
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .coverage-city {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #F59E0B;
+            transition: all 0.3s ease;
+        }
+
+        .coverage-city:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #F59E0B;
+            transform: translateY(-4px);
+        }
+
+        /* Footer */
+        footer {
+            background: #000000;
+            border-top: 2px solid #F59E0B;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        footer h3 {
+            color: #F59E0B;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-phone {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #F59E0B;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .footer-phone:hover {
+            color: #fbbf24;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+
+            .membership-card.featured {
+                transform: scale(1);
+            }
+
+            .services-grid,
+            .why-us-grid,
+            .membership-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card,
+        .why-us-item,
+        .membership-card,
+        .coverage-city {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#home" class="logo">⛰️ CASCADE ROADSIDE</a>
+        <a href="tel:+12533225282" class="nav-phone">📞 (253) 322-5282</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>On The Road When You Need Us</h1>
+            <p class="tagline">24/7 Roadside Assistance in Pierce County, WA</p>
+            <a href="tel:+12533225282" class="hero-phone">(253) 322-5282</a>
+            <br>
+            <a href="tel:+12533225282" class="cta-button">Call Now</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔓</div>
+                <h3>Lockout Service</h3>
+                <p>Fast, professional lockout assistance. We'll get you back in your car quickly.</p>
+                <div class="service-price">$65</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛞</div>
+                <h3>Tire Change</h3>
+                <p>Professional tire change service right on the road. Get back on track fast.</p>
+                <div class="service-price">$55</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⛽</div>
+                <h3>Fuel Delivery</h3>
+                <p>Out of gas? We deliver fuel directly to you (includes 2 gallons).</p>
+                <div class="service-price">$55</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔋</div>
+                <h3>Jump Start</h3>
+                <p>Dead battery? Our technicians will get you started in minutes.</p>
+                <div class="service-price">$55</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section class="why-us" id="why-us">
+        <h2>Why Choose Cascade Roadside?</h2>
+        <div class="why-us-grid">
+            <div class="why-us-item">
+                <div class="why-us-icon">⚡</div>
+                <div>
+                    <h3>30-Minute Response</h3>
+                    <p>We pride ourselves on fast response times. Help is never far away when you need it most.</p>
+                </div>
+            </div>
+            <div class="why-us-item">
+                <div class="why-us-icon">👤</div>
+                <div>
+                    <h3>Real Humans Answer</h3>
+                    <p>No automated systems or long hold times. Speak directly with a real person who cares about your problem.</p>
+                </div>
+            </div>
+            <div class="why-us-item">
+                <div class="why-us-icon">🏘️</div>
+                <div>
+                    <h3>Local & Trusted</h3>
+                    <p>We're based right here in Pierce County. We know our roads and your community.</p>
+                </div>
+            </div>
+            <div class="why-us-item">
+                <div class="why-us-icon">💰</div>
+                <div>
+                    <h3>No Hidden Fees</h3>
+                    <p>Transparent pricing. You know exactly what you'll pay before we come out to help.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Section -->
+    <section id="membership">
+        <h2>Save Big With An Annual Membership</h2>
+        <div class="membership-container">
+            <div class="membership-card">
+                <h3>Pay Per Call</h3>
+                <p>Single calls when you need us</p>
+                <div class="membership-price">$55–$65<span>/call</span></div>
+                <ul class="membership-features">
+                    <li>Service calls available 24/7</li>
+                    <li>No subscription needed</li>
+                    <li>Fast response times</li>
+                </ul>
+            </div>
+            <div class="membership-card featured">
+                <h3>💪 Cascade Plus</h3>
+                <p>Unlimited coverage all year</p>
+                <div class="membership-price">$79<span>/year</span></div>
+                <ul class="membership-features">
+                    <li>✨ Unlimited roadside calls</li>
+                    <li>✨ No per-call charges ever</li>
+                    <li>✨ Priority response</li>
+                    <li>✨ Same fast service, always included</li>
+                    <li>✨ Best value for regular travelers</li>
+                </ul>
+                <a href="tel:+12533225282" class="cta-button">Get Cascade Plus</a>
+            </div>
+            <div class="membership-card">
+                <h3>AAA Comparison</h3>
+                <p>Local alternative to national plans</p>
+                <div class="membership-price">vs. $140+<span>/year</span></div>
+                <ul class="membership-features">
+                    <li>Save $60+/year with Cascade</li>
+                    <li>30-min response locally</li>
+                    <li>Same coverage areas</li>
+                    <li>Support local business</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coverage Section -->
+    <section class="coverage" id="coverage">
+        <h2>Our Coverage Area</h2>
+        <p style="text-align: center; color: #d1d5db; margin-bottom: 2rem;">Serving Puyallup and all of Pierce County</p>
+        <div class="coverage-grid">
+            <div class="coverage-city">🏙️ Puyallup</div>
+            <div class="coverage-city">🏙️ Tacoma</div>
+            <div class="coverage-city">🏙️ Federal Way</div>
+            <div class="coverage-city">🏙️ Auburn</div>
+            <div class="coverage-city">🏙️ Sumner</div>
+            <div class="coverage-city">🏙️ Bonney Lake</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h3>Cascade Roadside LLC</h3>
+        <a href="tel:+12533225282" class="footer-phone">(253) 322-5282</a>
+        <p>24/7 Roadside Assistance</p>
+        <p>Puyallup, WA | Serving Pierce County</p>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Cascade Roadside LLC. All rights reserved.</p>
+            <p>On the road when you need us.</p>
+        </div>
+    </footer>
+</body>
+</html>

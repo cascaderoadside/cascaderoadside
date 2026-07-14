@@ -1,0 +1,26 @@
+​
+Netlify Build                                                 
+────────────────────────────────────────────────────────────────
+​
+❯ Version
+  @netlify/build 35.15.0
+​
+❯ Flags
+  {}
+​
+❯ Current directory
+  /Users/dougwinker/.openclaw/workspace/cascade-roadside
+​
+❯ Config file
+  No config file was defined: using default values.
+​
+❯ Context
+  production
+​
+Netlify Build Complete                                        
+────────────────────────────────────────────────────────────────
+​
+(Netlify Build completed in 28ms)
+
+⬥ Deploying 125 files anonymously...
+ ›   Error: You've reached the daily limit for anonymous deploys. Run netlify login --request <message> to sign up or log in, then retry your deploy.

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascade Roadside | 24/7 Roadside Assistance Puyallup WA | (253) 322-5282</title>
+    <meta name="description" content="Cascade Roadside provides fast roadside assistance in Puyallup, Tacoma & greater Puget Sound. Lockouts, flat tires, jump starts, fuel delivery. Available 24/7. Call (253) 322-5282.">
+    <meta name="keywords" content="roadside assistance puyallup wa, lockout service tacoma, jump start puyallup, flat tire tacoma, roadside assistance 24 7, emergency roadside puyallup">
+    <link rel="canonical" href="https://cascaderoadside.com/">
+    <meta property="og:title" content="Cascade Roadside | 24/7 Roadside Assistance Puyallup WA">
+    <meta property="og:description" content="Fast, reliable roadside assistance in Puyallup, Tacoma, and throughout the Puget Sound. Lockouts, flat tires, jump starts, fuel delivery. (253) 322-5282">
+    <meta property="og:type" content="business.business">
+    <meta property="og:url" content="https://cascaderoadside.com/">
+    <meta property="og:image" content="https://cascaderoadside.com/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cascade Roadside | 24/7 Roadside Assistance Puyallup WA">
+    <meta name="twitter:description" content="Fast, reliable roadside assistance in Puyallup, Tacoma, and greater Puget Sound. Available 24/7.">
+    <meta name="twitter:image" content="https://cascaderoadside.com/logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Cascade Roadside LLC",
+      "image": "https://cascaderoadside.com/logo.png",
+      "description": "24/7 roadside assistance providing lockouts, flat tire service, jump starts, and fuel delivery throughout the Puget Sound region.",
+      "telephone": "(253) 322-5282",
+      "url": "https://cascaderoadside.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "WA",
+        "postalCode": "98373",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Puyallup"},
+        {"@type": "City", "name": "Tacoma"},
+        {"@type": "City", "name": "Sumner"},
+        {"@type": "City", "name": "Bonney Lake"},
+        {"@type": "City", "name": "Parkland"},
+        {"@type": "City", "name": "JBLM"},
+        {"@type": "City", "name": "Spanaway"},
+        {"@type": "City", "name": "Graham"},
+        {"@type": "City", "name": "Lakewood"},
+        {"@type": "City", "name": "Auburn"},
+        {"@type": "City", "name": "Federal Way"},
+        {"@type": "City", "name": "Kent"},
+        {"@type": "City", "name": "Normandy Park"},
+        {"@type": "City", "name": "Pacific"},
+        {"@type": "City", "name": "Algona"}
+      ],
+      "priceRange": "$85-$95",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "sameAs": "https://cascaderoadside.com"
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0a1628;
+            --dark-navy: #020814;
+            --orange: #ff8c00;
+            --orange-light: #ffa500;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --text-gray: #333333;
+            --border-gray: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-gray);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Header / Navigation */
+        header {
+            background: var(--dark-navy);
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .logo-img {
+            max-height: 60px;
+            width: auto;
+            display: inline-block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('./banner.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            padding-top: 3rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 8, 20, 0.6);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--orange-light);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            margin: 1rem 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .hero-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Why Choose Us */
+        .why-us {
+            background: var(--light-gray);
+            padding: 2.5rem 1rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .why-us h2 {
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 6px;
+            border-left: 4px solid var(--orange);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .feature h3 {
+            color: var(--navy);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .feature p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 2.5rem 1rem;
+        }
+
+        .services h2 {
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--orange);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-card h3 {
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .price {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Service Area */
+        .service-area {
+            background: var(--navy);
+            color: var(--white);
+            padding: 2.5rem 1rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .service-area h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .area-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .area-item {
+            background: rgba(255, 140, 0, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--orange);
+            font-weight: 500;
+        }
+
+        .service-area-note {
+            text-align: center;
+            font-style: italic;
+            color: var(--orange-light);
+            margin-top: 1.5rem;
+        }
+
+        /* Reviews Section */
+        .reviews {
+            padding: 2.5rem 1rem;
+        }
+
+        .reviews h2 {
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .review-card {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--orange);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.8rem;
+        }
+
+        .review-name {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .stars {
+            color: var(--orange);
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .review-text {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .reviews-badge {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+            color: var(--navy);
+        }
+
+        .reviews-badge p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, var(--dark-navy) 0%, var(--navy) 100%);
+            color: var(--white);
+            padding: 2.5rem 1rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .contact h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-method {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 140, 0, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .contact-method h3 {
+            color: var(--orange-light);
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+        }
+
+        .contact-method a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .contact-method a:hover {
+            color: var(--orange-light);
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--orange-light);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--orange-light);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            padding: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-navy);
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 2px solid var(--orange);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-section h3 {
+            color: var(--orange-light);
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .footer-logo {
+            max-height: 50px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 140, 0, 0.2);
+            padding-top: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .features,
+            .services-grid,
+            .area-grid,
+            .contact-methods,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .area-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card h3 {
+                font-size: 1rem;
+            }
+
+            .review-card {
+                padding: 1rem;
+            }
+
+            .hero-icons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .trust-badge {
+                width: 100%;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <header>
+        <img src="./logo.png" alt="Cascade Roadside Logo" class="logo-img" width="60" height="60">
+        <nav style="margin-top: 10px; display: flex; justify-content: center; gap: 20px; font-size: 14px; flex-wrap: wrap;">
+            <a href="/" style="color: #ff8c00; text-decoration: none; font-weight: 600;">Home</a>
+            <a href="/service-areas.html" style="color: #ff8c00; text-decoration: none; font-weight: 600;">Service Areas</a>
+            <a href="/service-area-map.html#request" style="color: #ff8c00; text-decoration: none; font-weight: 600;">📍 Request Service</a>
+            <a href="tel:(253) 322-5282" style="color: #ff8c00; text-decoration: none; font-weight: 600;">(253) 322-5282</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>24/7 Roadside Assistance in Puyallup WA</h1>
+            <p class="tagline">"On the road when you need us."</p>
+            
+            <a href="/service-area-map.html#request" class="cta-button">📍 Request Service Now</a>
+            <a href="tel:(253) 322-5282" class="cta-button" style="background: linear-gradient(135deg, #0a1628 0%, #0f2340 100%); margin-left: 10px;">☎️ Call Now (253) 322-5282</a>
+            
+            <div class="hero-icons">
+                <div class="trust-badge">✓ Licensed LLC</div>
+                <div class="trust-badge">⚡ 45-Min Response Guarantee</div>
+                <div class="trust-badge">🕐 24/7 Available</div>
+                <div class="trust-badge">💳 Pay Per Call • No Membership</div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Why Choose Us -->
+        <section class="why-us">
+            <h2>Why Choose Cascade Roadside in Puyallup & Tacoma?</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div>
+                        <h3>Fast Response</h3>
+                        <p>Quick arrival times across the Puget Sound area</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <div>
+                        <h3>Fair Pricing</h3>
+                        <p>Flat rates, no hidden fees or surprises</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📍</div>
+                    <div>
+                        <h3>Local & Trusted in Puget Sound</h3>
+                        <p>Serving Puyallup, Tacoma, and the greater Puget Sound</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <div>
+                        <h3>Professional Service</h3>
+                        <p>Licensed professionals who know their job</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔓</div>
+                    <h3>Car Lockout</h3>
+                    <p>Locked out of your car? We'll get you back in quickly and safely.</p>
+                    <div class="price">$95</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛞</div>
+                    <h3>Flat Tire / Spare Swap</h3>
+                    <p>Flat tire? We'll change it for you roadside, anytime.</p>
+                    <div class="price">$95</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔋</div>
+                    <h3>Jump Start</h3>
+                    <p>Battery dead? We'll jump-start your vehicle in minutes.</p>
+                    <div class="price">$85</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⛽</div>
+                    <h3>Fuel Delivery (2 gal)</h3>
+                    <p>Out of gas? We'll deliver fuel right to your location.</p>
+                    <div class="price">$95</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; padding: 1rem; background: rgba(255, 140, 0, 0.1); border-radius: 6px; color: var(--navy); font-weight: 500;"><strong>Surcharges:</strong><br>After hours (8 PM–7 AM): +$35 | Tacoma Narrows Bridge crossing: +$10</p>
+        </section>
+
+        <!-- Service Area -->
+        <section class="service-area">
+            <h2>Roadside Assistance in Central Puget Sound</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; font-weight: 500;">We serve 37 zip codes across:</p>
+            <div class="area-grid">
+                <div class="area-item">📍 Puyallup</div>
+                <div class="area-item">📍 Tacoma</div>
+                <div class="area-item">📍 Sumner</div>
+                <div class="area-item">📍 Bonney Lake</div>
+                <div class="area-item">📍 Parkland</div>
+                <div class="area-item">📍 JBLM</div>
+                <div class="area-item">📍 Spanaway</div>
+                <div class="area-item">📍 Graham</div>
+                <div class="area-item">📍 Lakewood</div>
+                <div class="area-item">📍 Auburn</div>
+                <div class="area-item">📍 Federal Way</div>
+                <div class="area-item">📍 Kent</div>
+                <div class="area-item">📍 Normandy Park</div>
+                <div class="area-item">📍 Pacific</div>
+                <div class="area-item">📍 Algona</div>
+            </div>
+            <p class="service-area-note">Serving 98 zip codes in Pierce, South King, and surrounding areas. Check our <a href="/service-areas.html" style="color: #ff8c00;">service area page</a> for your zip code and view our <a href="/service-area-map.html" style="color: #ff8c00;">interactive map</a>.</p>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews">
+            <h2>What Our Customers Say</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-name">Sarah M.</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Locked out near Tacoma at 10 PM. Cascade Roadside arrived in 20 minutes. Friendly, professional, and fair pricing. Will definitely use again!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-name">James K.</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Flat tire on I-5. These guys showed up fast and had me back on the road in no time. Great service, would recommend to anyone!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-name">Lisa T.</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p class="review-text">"Dead battery in Bellevue. Called Cascade Roadside and they were there in 15 minutes. Best roadside service I've had. Highly recommend!"</p>
+                </div>
+            </div>
+            <div class="reviews-badge">
+                <p><strong>⭐ Trusted Local Service Provider</strong></p>
+                <p>Licensed LLC • Serving the Puget Sound for years</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact">
+            <h2>Need Help Right Now?</h2>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <h3>Call Us</h3>
+                    <a href="tel:(253) 322-5282">(253) 322-5282</a>
+                </div>
+                <div class="contact-method">
+                    <h3>24/7 Available</h3>
+                    <p style="color: var(--orange-light); font-weight: 600;">Always Ready to Help</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(253) 555-0123" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (Optional)</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service Needed</label>
+                        <input type="text" id="service" name="service" placeholder="Lockout, Flat Tire, Jump Start, Fuel Delivery" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your situation..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Request</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <img src="./logo.png" alt="Cascade Roadside Logo" class="footer-logo" width="50" height="50">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><strong>Phone:</strong> (253) 322-5282</p>
+                    <p><strong>Hours:</strong> 24/7</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Service Area</h3>
+                    <p>Puyallup • Tacoma • Olympia<br>Bellevue • Auburn • Federal Way</p>
+                </div>
+                <div class="footer-section">
+                    <h3>License Info</h3>
+                    <p>Licensed LLC<br>Professional Service<br>Fully Insured</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cascade Roadside LLC. All rights reserved. | On the road when you need us.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+            
+            // Format message for phone call or email
+            const body = `Roadside Assistance Request%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AEmail: ${email ? encodeURIComponent(email) : 'Not provided'}%0AService: ${encodeURIComponent(service)}%0A%0AMessage:%0A${encodeURIComponent(message)}`;
+            
+            // Option 1: Call the business directly
+            const confirmCall = confirm('Would you like to call (253) 322-5282 with your details, or would you prefer to send an email?');
+            
+            if (confirmCall) {
+                window.location.href = 'tel:(253) 322-5282';
+            } else {
+                // For demo purposes, we'll just show a success message
+                // In production, this would connect to a backend service
+                alert('Thank you for your request! We will contact you shortly at ' + phone);
+                document.querySelector('form').reset();
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
